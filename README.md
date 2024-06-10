@@ -1,4 +1,4 @@
-# Journal Application Backend
+# Journal Application Backend - UNDER DEVELOPMENT
 
 Welcome to the backend repository for the Journal Application, a Spring Boot-based project that leverages Kafka, Redis, Swagger UI, and MongoDB to provide a robust and scalable journaling platform.
 
@@ -69,7 +69,7 @@ This project serves as the backend for a journal application, handling all data 
 
 ## Configuration
 
-The application configuration is managed via the `application.yml` file located in the `src/main/resources` directory. Key configurations include:
+The application configuration is managed via the `application.properties` file located in the `src/main/resources` directory. Key configurations include:
 
 - Kafka connection details
 - Redis connection details
