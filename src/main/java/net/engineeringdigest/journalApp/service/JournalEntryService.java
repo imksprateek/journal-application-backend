@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +23,16 @@ public class JournalEntryService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
+//    Use @Transactional annotation to carry out the method steps as a single unit (single operation). If any step fails inside the method, the changes are reverted. This is used for doing any save/delete/update operation on the database. You also need to add @EnableTransactionManagement annotation to the main Application class. When there are 2 concurrent requests, it creates 2 different containers in Transaction context and executes separately for each request (Transaction context is like session)
+//    PlatformTransactionManager.class annotation and it's implementation MongoTransactionManager.class carry out transactions and rollback when any of the steps fail
+    /*Steps to integrate DB Transactions into the code:
+        - Annotate Service method with @Transactional
+        - annotate application class with @EnableTransactionManagement
+        - Provide an implementation of PlatformTransactionManager as a Bean
+     */
+
+//    NOTE: @Transactional requires replicas of DB in order to manage multiple requests. So if you're running your DB on localhost, you might require replicas. But if you use MongoDB Atlas, a managed DB in Cloud it is managed by the cloud provider. So there's no problem if you use MongoDB Atlas instance
 
     public void saveEntry(JournalEntry journalEntry, String userName) {
         User foundUser = userService.findByUserName(userName);
