@@ -24,7 +24,7 @@ public class JournalEntryService {
     private UserRepository userRepository;
 
     @Transactional
-//    Use @Transactional annotation to carry out the method steps as a single unit (single operation). If any step fails inside the method, the changes are reverted. This is used for doing any save/delete/update operation on the database. You also need to add @EnableTransactionManagement annotation to the main Application class. When there are 2 concurrent requests, it creates 2 different containers in Transaction context and executes separately for each request (Transaction context is like session)
+//    Use @Transactional annotation to carry out the method steps as a single unit (single operation). If any step fails inside the method, the changes are reverted. The changes are only committed to the DB when all steps of the method are successful. This is used for doing any save/delete/update operation on the database. You also need to add @EnableTransactionManagement annotation to the main Application class. When there are 2 concurrent requests, it creates 2 different containers in Transaction context and executes separately for each request (Transaction context is like session)
 //    PlatformTransactionManager.class annotation and it's implementation MongoTransactionManager.class carry out transactions and rollback when any of the steps fail
     /*Steps to integrate DB Transactions into the code:
         - Annotate Service method with @Transactional
