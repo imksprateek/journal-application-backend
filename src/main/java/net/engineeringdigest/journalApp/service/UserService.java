@@ -1,5 +1,4 @@
 package net.engineeringdigest.journalApp.service;
-
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
@@ -19,35 +18,41 @@ public class UserService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public User saveEntry(User userEntry) {
-        userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
-        userEntry.setRoles(Arrays.asList("USER"));
-        return userRepository.save(userEntry);
+    public boolean saveNewUser(User user) {
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR IN USER SERVICE");
+            return false;
+        }
     }
 
-    public List<User> retrieveUsers() {
+    public void saveAdmin(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER", "ADMIN"));
+        userRepository.save(user);
+    }
+
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public Optional<User> findById(ObjectId userId) {
-        return userRepository.findById(userId);
+    public Optional<User> findById(ObjectId id) {
+        return userRepository.findById(id);
     }
 
-    public boolean deleteById(ObjectId userId) {
-        userRepository.deleteById(userId);
-        return true;
+    public void deleteById(ObjectId id) {
+        userRepository.deleteById(id);
     }
 
     public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
-    }
-
-    public User updateById(ObjectId userId, User myEntry) {
-        User userEntry = userRepository.findById(userId).orElse(null);
-        if (userEntry != null) {
-            myEntry.setId(userId);
-            return userRepository.save(myEntry);
-        }
-        else return null;
     }
 }
